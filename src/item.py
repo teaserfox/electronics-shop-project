@@ -1,7 +1,5 @@
-import os
 import csv
-
-PATH = os.path.csv('items.csv')
+import os
 
 
 class Item:
@@ -22,23 +20,34 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
+
         Item.all.append(self)
 
     @property
     def name(self) -> str:
-        """ Возвращает наименование товара
+        """ Геттер для названия товара
         """
-        return f'{self.__name}'
+        return self.__name
 
     @name.setter
-    def name(self, name) -> None:
-        """ Метод срабатывает при операции присваивания. Измеряется длинна ввода символов названия.
-        """
-        self.__name = name
-        if len(self.__name) >= 10:
-            print("Длина наименования товара превышает 10 символов.")
+    def name(self, name):
+        if len(name) <= 10:
+            self.__name = name
         else:
-            print("Длина наименования товара меньше 10 символов")
+            print('Длина наименования товара превышает 10 символов')
+
+    @classmethod
+    def instantiate_from_csv(cls, CSV_FILE=os.path.join('..', 'src', 'items.csv')):
+        with open(CSV_FILE, encoding='windows-1251') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                cls.all.append((row['name'], float(row['price']), int(row['quantity'])))
+
+    @staticmethod
+    def string_to_number(number: str) -> int:
+        """Преобразование строки в число.
+        """
+        return int(float(number))
 
     def calculate_total_price(self) -> float:
         """
@@ -53,18 +62,3 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
-
-    @classmethod
-    def instantiate_from_csv(cls):
-        item_list = []
-        with open('path', 'r', newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                name = row['name']
-                price = float(row['price'])
-                quantity = int(row['quantity'])
-                item_list.append(Item(name, price, quantity))
-            cls.all = item_list
-
-    def string_to_number(self):
-        pass
