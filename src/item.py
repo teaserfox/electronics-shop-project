@@ -62,3 +62,4 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
+print(Item.instantiate_from_csv())
