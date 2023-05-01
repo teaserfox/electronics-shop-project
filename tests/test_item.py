@@ -13,6 +13,10 @@ def test_calculate_total_price(item1, rez):
 def item1():
     return Item('Смартфон', 10000, 20)
 
+@pytest.fixture
+def Item():
+    return Item('Смартфон', 10000, 20)
+
 
 def test_repr(item):
     assert item.__repr__() == "Item('Смартфон', 10000, 20)"
