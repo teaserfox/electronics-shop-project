@@ -15,7 +15,7 @@ def item1():
 
 
 def test_repr(item):
-    assert repr(item) == "Item('Смартфон', 10000, 20)"
+    assert item.__repr__() == "Item('Смартфон', 10000, 20)"
 
 
 def test_str(item):
@@ -32,8 +32,9 @@ def test_init(item1):
 # def test_instantiate_from_csv(item1):
 # """Тестирует метод instantiate_from_csv."""
 # Item.instantiate_from_csv(CSV_FILE='items.csv')
-# assert len(Item.all[0].name) == 8
-# assert len(Item.all) == 6
+# assert len(Item.all[0].name) == 5
+# assert Item.all[0].name == 'Смартфон'
+
 
 def test_apply_discount(item1):
     """Тестирует метод apply_discount."""
@@ -57,3 +58,6 @@ def test_string_to_number(item1):
     """Тестирует метод string_to_number."""
     assert item1.string_to_number("10000") == 10000
     assert item1.string_to_number("2.034") == 2
+
+
+

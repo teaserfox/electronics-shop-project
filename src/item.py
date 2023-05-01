@@ -23,11 +23,11 @@ class Item:
 
         # Item.all.append(self)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity})"
 
-    def __str__(self):
-        return f"{self.name}"
+    def __str__(self) -> str:
+        return f"{self.__name}"
 
     @property
     def name(self) -> str:
@@ -35,6 +35,11 @@ class Item:
         Геттер для названия товара
         """
         return self.__name
+
+    def __add__(self, other):
+        if not isinstance(other, Item):
+            raise ValueError('Складывать можно только объекты Item и дочерние от них.')
+        return self.quantity + other.quantity
 
     @name.setter
     def name(self, name):
