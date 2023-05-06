@@ -2,24 +2,23 @@ from src.item import Item
 
 
 class MixinLanguage:
-    def __init__(self, name: str, price: float, quantity: int, language: str = "EN") -> None:
+    def __init__(self) -> None:
         """Инициализация класса клавиатура"""
-        super().__init__(name, price, quantity)
-        self.__language = language
+        self.__language = "EN"
 
     @property
     def language(self):
         """Вывод на печать"""
         return self.__language
 
-    @language.setter
-    def language(self, change_language):
-        """Установить значение language"""
-        try:
-            if change_language in ["EN", "RU"]:
-                self.__language = change_language
-        except:
-            print("AttributeError: property 'language' of 'KeyBoard' object has no setter")
+    # @language.setter
+    # def language(self, change_language):
+    #     """Установить значение language"""
+    #     try:
+    #         if change_language in ["EN", "RU"]:
+    #             self.__language = change_language
+    #     except:
+    #         print("AttributeError: property 'language' of 'KeyBoard' object has no setter")
 
     def change_lang(self):
         """Изменить значение на EN или RU"""
@@ -30,5 +29,8 @@ class MixinLanguage:
         return self
 
 
-class KeyBoard(MixinLanguage, Item):
-    pass
+class KeyBoard(Item, MixinLanguage):
+    def __init__(self, name: str, price: float, quantity: int) -> None:
+        """Инициализация класса клавиатура"""
+        super().__init__(name, price, quantity)
+        MixinLanguage.__init__(self)
