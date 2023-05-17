@@ -49,7 +49,6 @@ class Item:
         else:
             raise ValueError('Длина наименования товара превышает 10 символов')
 
-
     @classmethod
     def instantiate_from_csv(cls, CSV_FILE=os.path.join('..', 'src', 'items.csv')):
         try:
@@ -64,7 +63,6 @@ class Item:
             raise FileNotFoundError(f'Отсутствует файл {CSV_FILE}')
         except PermissionError:
             print(f'Невозможно создать файл {CSV_FILE}')
-
 
     @staticmethod
     def string_to_number(number: str) -> int:
