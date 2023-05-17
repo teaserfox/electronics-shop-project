@@ -52,10 +52,19 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls, CSV_FILE=os.path.join('..', 'src', 'items.csv')):
-        with open(CSV_FILE, encoding='windows-1251', newline='') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                cls.all.append(cls(row['name'], row['price'], row['quantity']))
+        try:
+            with open(CSV_FILE, encoding='windows-1251', newline='') as file:
+                reader = csv.DictReader(file)
+                if len(list(csv.reader(file))[0]) != 3:
+                    raise InstantiateCSVError(f'Файл {CSV_FILE} поврежден')
+                file.seek(0)
+                for row in reader:
+                    cls.all.append(cls(row['name'], row['price'], row['quantity']))
+        except FileNotFoundError:
+            raise FileNotFoundError(f'Отсутствует файл {CSV_FILE}')
+        except PermissionError:
+            print(f'Невозможно создать файл {CSV_FILE}')
+
 
     @staticmethod
     def string_to_number(number: str) -> int:
@@ -77,3 +86,7 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
+
+
+class InstantiateCSVError(Exception):
+    pass
