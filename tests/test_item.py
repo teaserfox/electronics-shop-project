@@ -1,6 +1,6 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 import pytest
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 
 
 @pytest.mark.parametrize('item1, rez', [(Item('item1', 10000, 20), 10000 * 20),
@@ -12,6 +12,7 @@ def test_calculate_total_price(item1, rez):
 @pytest.fixture
 def item1():
     return Item('Смартфон', 10000, 20)
+
 
 @pytest.fixture
 def Item():
@@ -64,4 +65,13 @@ def test_string_to_number(item1):
     assert item1.string_to_number("2.034") == 2
 
 
+def test_exception_instantiate_from_csv():
+    Item.CSV_FILE = '123'
+    with pytest.raises(FileNotFoundError) as ex:
+        Item.instantiate_from_csv()
+    assert str(ex.value) == f'Отсутствует файл {Item.CSV_FILE}'
 
+    Item.CSV_FILE = 'items_test.csv'
+    with pytest.raises(InstantiateCSVError) as ex:
+        Item.instantiate_from_csv()
+    assert str(ex.value) == f'Файл {Item.CSV_FILE} поврежден'
